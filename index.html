@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="product.js"></script>
+    <script src="productManagement.js"></script>
+</head>
+<body>
+<fieldset>
+    <legend><h1>List Products</h1></legend>
+        <tr>
+            <td>
+                <div id="name"></div>
+            </td>
+            <td>
+                <div id="gia"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id="nameProducts"></div>
+            </td>
+            <td>
+                <div id="productsPrice"></div>
+            </td>
+        </tr>
+    </table>
+</fieldset>
+<input id="productName" placeholder="name">
+<input id="productPrice" placeholder="price">
+<button onclick="addNewProduct()"> Add </button>
+<div id="display"></div>
+</body>
+<script>
+    let productManage = new ProductManage("Product Management");
+    function addNewProduct() {
+        let name = document.getElementById("productName").value;
+        let price = document.getElementById("productPrice").value;
+        let product = new Product(name,price);
+        productManage.addProduct(product);
+        resetInput();
+        displayProducts();
+    }
+    function displayProducts() {
+        let result = "";
+        for (let i = 0; i<productManage.products.length;i++){
+            productManage.products[i].index = i;
+            result+=productManage.products[i].getInfo()+productManage.getBtnEdit(i)+productManage.getBtnDelete(i)+"</br>";
+        }
+        document.getElementById("display").innerHTML = result;
+    }
+
+    function delProduct(index) {
+        productManage.deleteProduct(index);
+        displayProducts();
+    }
+
+    function editProduct(index) {
+        let name = prompt("Name");
+        let price = prompt("Price");
+        productManage.products[index].editProduct(name,price);
+        displayProducts();
+    }
+
+    function resetInput() {
+        document.getElementById("productName").value = "";
+        document.getElementById("productPrice").value = "";
+    }
+</script>
+</html>
